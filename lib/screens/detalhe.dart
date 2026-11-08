@@ -1,73 +1,109 @@
-// detalhe.dart — Responsável: Ana Carolina Rodrigues de Almeida César
+// detalhe.dart — Responsável: Ana Carolina Rodrigues de Almeida César Alves
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/cotacao_provider.dart';
+
+import '../models/cotacao.dart';
 
 class DetalheScreen extends StatelessWidget {
   const DetalheScreen({
     super.key,
     required this.moeda,
-    required this.data,
-    required this.preco,
-    required this.variacao,
+    required this.cotacao,
+    required this.historico,
   });
 
   final String moeda;
-  final String data;
-  final double preco;
-  final double variacao;
+  final Cotacao cotacao;
+  final List<Cotacao> historico;
 
   @override
   Widget build(BuildContext context) {
-    final precoMax = preco + 0.10;
-    final precoMin = preco - 0.08;
+    final provider = context.watch<CotacaoProvider>();
+    final favoritada = provider.estaFavoritada(moeda);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$moeda — $data'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text('$moeda/BRL'),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Text(
-              preco.toStringAsFixed(2),
+              'Cotação de ${cotacao.dataFormatada}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'R\$ ${cotacao.preco.toStringAsFixed(4)}',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              'Variação: ${variacao >= 0 ? '+' : ''}${variacao.toStringAsFixed(2)}%',
+              'Variação: '
+              '${cotacao.variacao >= 0 ? '+' : ''}'
+              '${cotacao.variacao.toStringAsFixed(2)}%',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
-                color: variacao >= 0 ? Colors.green : Colors.red,
+                color: cotacao.variacao >= 0 ? Colors.green : Colors.red,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 32),
+            const Text(
+              'Variação dos últimos 7 dias',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
             const SizedBox(height: 24),
+
             Card(
               child: ListTile(
                 title: const Text('Preço Máximo'),
-                trailing: Text(precoMax.toStringAsFixed(2)),
+                trailing: Text('R\$ ${cotacao.maxima.toStringAsFixed(4)}'),
               ),
             ),
+
             Card(
               child: ListTile(
                 title: const Text('Preço Mínimo'),
-                trailing: Text(precoMin.toStringAsFixed(2)),
+                trailing: Text('R\$ ${cotacao.minima.toStringAsFixed(4)}'),
               ),
             ),
+
             const SizedBox(height: 24),
+
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await provider.alternarFavorito(moeda);
+
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('$moeda favoritada! (na próxima etapa)')),
+                  SnackBar(
+                    content: Text(
+                      favoritada
+                          ? '$moeda removida dos favoritos!'
+                          : '$moeda adicionada aos favoritos!',
+                    ),
+                  ),
                 );
               },
-              child: const Text('Favoritar'),
+              child: Text(favoritada ? 'Remover dos favoritos' : 'Favoritar'),
             ),
           ],
         ),

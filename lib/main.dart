@@ -1,9 +1,17 @@
 // main.dart — Responsável: Mateus Thomas
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'screens/busca.dart';
+import 'providers/cotacao_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => CotacaoProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

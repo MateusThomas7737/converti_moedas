@@ -1,5 +1,6 @@
 // busca.dart — Responsável: Mateus Thomas
 import 'package:flutter/material.dart';
+
 import 'lista.dart';
 
 class BuscaScreen extends StatefulWidget {
@@ -20,6 +21,10 @@ class _BuscaScreenState extends State<BuscaScreen> {
     {'codigo': 'JPY', 'nome': 'Iene Japonês'},
     {'codigo': 'ARS', 'nome': 'Peso Argentino'},
     {'codigo': 'CAD', 'nome': 'Dólar Canadense'},
+    {'codigo': 'CHF', 'nome': 'Franco Suíço'},
+    {'codigo': 'CLP', 'nome': 'Peso Chileno'},
+    {'codigo': 'AUD', 'nome': 'Dólar Australiano'},
+    {'codigo': 'CNY', 'nome': 'Yuan Chinês'},
   ];
 
   void _buscar() {
