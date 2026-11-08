@@ -77,15 +77,6 @@ flutter pub get
 flutter run
 ```
 
-### Comandos
-
-Na raiz do projeto, execute:
-
-```bash
-flutter pub get
-flutter run
-```
-
 ### Versões e plataformas
 
 - Versão de Flutter identificada neste ambiente: **Flutter 3.47.8 (stable)**.
