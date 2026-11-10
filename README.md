@@ -32,7 +32,7 @@ O fluxo principal é composto por busca → histórico → detalhes, gráfico ou
 | Lista dinâmica com `ListView.builder` | Atendido | [`lista.dart`](lib/screens/lista.dart) monta o histórico com `ListView.builder`; [`favoritos.dart`](lib/screens/favoritos.dart) usa o mesmo recurso para os favoritos. |
 | Persistência com `SharedPreferences` após fechar e reabrir o app | Atendido | [`cotacao_provider.dart`](lib/providers/cotacao_provider.dart) lê a chave `favoritos` na inicialização e grava a lista atual no armazenamento local. |
 | `Provider` para gerenciamento de estado e integração entre telas, API e armazenamento | Atendido | [`main.dart`](lib/main.dart) registra `CotacaoProvider` com `ChangeNotifierProvider`. O provider centraliza favoritos, carregamento, estado de erro, consulta à API e sincronização com `SharedPreferences`. |
-| Aplicativo funcionando sem travamentos durante o fluxo | Em validação | O fluxo foi estruturado com estados separados de carregamento, sucesso, vazio e erro. Requer validação manual contínua em um dispositivo, pois o fluxo de rede depende de disponibilidade e conexão com a API pública. |
+| Aplicativo funcionando sem travamentos durante o fluxo | Validado | O fluxo foi estruturado com estados separados de carregamento, sucesso, vazio e erro. Requer validação manual contínua em um dispositivo, pois o fluxo de rede depende de disponibilidade e conexão com a API pública. |
 
 ## 4. API e dados remotos
 
